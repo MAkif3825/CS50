@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Result
+{% endblock %}
+
+{% block main %}
+    <main class="container py-5 text-center" method="post">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Symbol</th>
+                    <th>Name</th>
+                    <th>Transactions</th>
+                    <th>Shares</th>
+                    <th>Price</th>
+                    <th>TOTAL</th>
+                </tr>
+            </thead>
+            {% for stock in table %}
+                <tbody>
+                    <tr>
+                        <td>{{ stock["stock_symbol"] }}</td>
+                        <td>{{ stock["name"] }}</td>
+                        <td>
+                            <form action="" method="post" id="{{ stock['stock_symbol'] }}">
+                                <input type="hidden" name="symbol" value="{{ stock['stock_symbol'] }}">
+                                <input name="shares" placeholder="Number" type="text">
+                                <input type="submit" value="Buy" onclick="document.getElementById('{{ stock['stock_symbol']}}').action='/buy';" style="background-color: green; color: white;">
+                                <input type="submit" value="Sell" onclick="document.getElementById('{{ stock['stock_symbol']}}').action='/sell';" style="background-color: red; color: white;">
+                            </form>
+                        </td>
+                        <td>{{ stock["quantity"] }}</td>
+                        <td>{{ stock["price"] | usd }}</td>
+                        <td>{{ stock["total"] | usd }}</td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+            <tfoot>
+                <tr>
+                    <td class="border-0 fw-bold text-end" colspan="4">Cash</td>
+                    <td class="border-0 text-end">{{ cash | usd }}</td>
+                </tr>
+                <tr>
+                    <td class="border-0 fw-bold text-end" colspan="4">TOTAL</td>
+                    <td class="border-0 text-end">{{ total | usd }}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </main>
+{% endblock %}

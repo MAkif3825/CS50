@@ -1,0 +1,2 @@
+1- I think I would give a range for each aura type. Then I would take an average of those 100 songs' energy, valence, and danceability. Lastly, I would put this number on a scale that I generated and determine what user's aura is.
+2- I think users might not listen musics beacuse of it's all features. Instead, they may listen spesific songs just because of it's lyrics, for instance. Therefore, in this scenario, it makes no sense to use danceability feature for calculation. In my opinion, the formula should be specialized for each user.

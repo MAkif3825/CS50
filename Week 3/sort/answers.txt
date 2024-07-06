@@ -1,0 +1,11 @@
+sort1 uses: Bubble
+
+How do you know?: It was very fast in Sorted because there was nothing to change. But it was not as fast as others in reversed so I think it must be bubble sort.
+
+sort2 uses: Merge
+
+How do you know?: Because it was faster then others in random.
+
+sort3 uses: Selection
+
+How do you know?: Because it was very slow in sorted due to it's checking feature.

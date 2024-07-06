@@ -1,0 +1,78 @@
+/* Size for brand */
+nav .navbar-brand
+{
+    font-size: xx-large;
+}
+
+/* Colors for brand */
+nav .navbar-brand .blue
+{
+    color: #537fbe;
+}
+nav .navbar-brand .red
+{
+    color: #ea433b;
+}
+nav .navbar-brand .yellow
+{
+    color: #f5b82e;
+}
+nav .navbar-brand .green
+{
+    color: #2e944b;
+}
+
+
+/*make the navbar gradient*/
+.custom-primary-gradient {
+    background: linear-gradient(to bottom, #007bff, #0056b3); /* Adjust the gradient colors */
+    /* Other necessary styles to make the gradient visible */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+  }
+
+/* for container in login screen*/
+.custom-container {
+    width: 275px; /* Adjust as needed */
+}
+
+
+/*For forms*/
+.custom-button {
+    width: 120px;
+}
+
+body{
+    min-height: 100vh;
+    background: linear-gradient(to top, #006CFF, #4B9CFE);
+    background-size: cover;
+
+}
+
+
+/* Apply custom font color to the numbers in the calendar cells */
+.fc-daygrid-day-number {
+    color: white; /* Replace with your desired font color */
+}
+
+.fc-daygrid-dot-event .fc-event-dot {
+    /* Modify the dot's appearance here */
+    width: 10px;
+    height: 10px;
+    background-color: green;  /* Change the dot's color */
+
+    border-radius: 50%; /* Make it circular */
+}
+
+.fc-event-main {
+    color: #E6E6E6;
+}
+
+/* Apply custom styles to events marked as done */
+.done-event {
+    text-decoration: line-through;  /* Example: Apply line-through style */
+    opacity: 0.5;  /* Example: Reduce opacity */
+    /* Other styles... */
+}
+

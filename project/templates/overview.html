@@ -1,0 +1,416 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Overview
+{% endblock %}
+
+{% block main %}
+    <div class="grid m-3 border rounded-3 bg-white bg-opacity-10">
+        <table class="table table-striped">
+            <thead>
+                <tr><th>EVENTS</th></tr>
+                <tr>
+                    <th>Event Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in cevents%}
+                    <tr>
+                        <td>{{event['title']}}</td>
+                        <td>{{event['start']}}</td>
+                        <td>{{event['end']}}</td>
+                        <td>
+                            <form action="del_event" method="post">
+                                <input type="hidden" name="event_id" value={{event['event_id']}}>
+                                <button type="button" class="btn btn-primary bg-danger text-light" data-bs-toggle="modal" data-bs-target="#cevent{{loop.index}}">Delete Event</button>
+                                <div class="modal fade" id="cevent{{loop.index}}" tabindex="-1" aria-labelledby="cevent{{loop.index}}Label" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Event</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                        Do you want to delete {{event["title"]}} permanently?
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary bg-danger text-light">Delete Event</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table class="table table-striped">
+            <thead>
+                <tr><th>TASKS</th></tr>
+                <tr>
+                    <th>Task Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in ctasks %}
+                    <tr>
+                        <td>{{task['title']}}</td>
+                        <td>{{task['start']}}</td>
+                        <td>{{task['end']}}</td>
+                        <td>{{task['status']}}</td>
+                        <td>
+                            <div class="row justify-content-center">
+                                <form action="task_statuso" method="post" class="col-auto">
+                                    {% if task["status"] == "Not completed" %}
+                                        <input type="hidden" name="task_status" value="true">
+                                        <input type="hidden" name="task_id" value={{task['task_id']}}>
+                                        <input type="submit" value="Mark as done" class="btn btn-primary bg-success text-light">
+                                    {% else %}
+                                        <input type="hidden" name="task_status" value="false">
+                                        <input type="hidden" name="task_id" value={{task['task_id']}}>
+                                        <input type="submit" value="Mark as not done" class="btn btn-primary bg-primary text-light">
+                                    {% endif %}
+                                </form>
+                                <form action="del_task" method="post" class="col-auto">
+                                    <input type="hidden" name="task_id" value={{task['task_id']}}>
+                                    <button type="button" class="btn btn-primary bg-danger text-light" data-bs-toggle="modal" data-bs-target="#ctask{{loop.index}}">Delete Task</button>
+                                    <div class="modal fade" id="ctask{{loop.index}}" tabindex="-1" aria-labelledby="ctask{{loop.index}}Label" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Task</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                            Do you want to delete {{task["title"]}} permanently?
+                                            </div>
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary bg-danger text-light">Delete Task</button>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <table class="table table-striped">
+            <thead>
+                <tr><th>HABITS</th></tr>
+                <tr>
+                    <td>Event Name</td>
+                    <td>Start Date</td>
+                    <td>End Date</td>
+                    <td>Success Rate</td>
+                    <td>Edit</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for habit in chabits %}
+                    <tr>
+                        <td>{{habit['title']}}</td>
+                        <td>{{habit['start']}}</td>
+                        <td>{{habit['end']}}</td>
+                        <td>%{{habit['success']}}</td>
+                        <td>
+                            <div class="row justify-content-center">
+                                <div class="col-auto" >
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#dchabit{{loop.index}}">Details</button>
+                                    <div class="modal fade" id="dchabit{{loop.index}}" tabindex="-1" aria-labelledby="dchabit{{loop.index}}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Details</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <table class="table table-striped">
+                                                        <thead>
+                                                            <tr><th>{{habit['title']}}</th></tr>
+                                                            <tr>
+                                                                <td>Repititon</td>
+                                                                <td>Date</td>
+                                                                <td>Edit</td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for element in habit['details'] %}
+                                                                <tr>
+                                                                    <td>{{element['habit_day']}}</td>
+                                                                    <td>{{element['start']}}</td>
+                                                                    <td>
+                                                                        <form action="/habit_statuso" method="post">
+                                                                            {% if element["status"] == "false" %}
+                                                                                <input type="hidden" name="habit_status" value="true">
+                                                                                <input type="hidden" name="habit_id" value={{element['habit_id']}}>
+                                                                                <input type="hidden" name="start" value={{element['start']}}>
+                                                                                <input type="submit" value="Mark as done" class="btn btn-primary bg-success text-light">
+                                                                            {% else %}
+                                                                                <input type="hidden" name="habit_status" value="false">
+                                                                                <input type="hidden" name="habit_id" value={{element['habit_id']}}>
+                                                                                <input type="hidden" name="start" value={{element['start']}}>
+                                                                                <input type="submit" value="Mark as not done" class="btn btn-primary bg-primary text-light">
+                                                                            {% endif %}
+                                                                        </form>
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <form action="del_habit" class="col-auto" method="post">
+                                    <input type="hidden" name="habit_id" value={{habit['habit_id']}}>
+                                    <button type="button" class="btn btn-primary bg-danger text-light" data-bs-toggle="modal" data-bs-target="#chabit{{loop.index}}">Delete Habit</button>
+                                    <div class="modal fade" id="chabit{{loop.index}}" tabindex="-1" aria-labelledby="chabit{{loop.index}}Label" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Habit</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                Do you want to delete {{habit["title"]}} permanently?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary bg-danger text-light">Delete Habit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="grid m-3 border rounded-3 bg-white bg-opacity-10">
+        <table class="table table-striped">
+            <thead>
+                <tr><th>Past Events</th></tr>
+                <tr>
+                    <td>Event Name</td>
+                    <td>Start Date</td>
+                    <td>End Date</td>
+                    <td>Edit</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in pevents%}
+                    <tr>
+                        <td>{{event['title']}}</td>
+                        <td>{{event['start']}}</td>
+                        <td>{{event['end']}}</td>
+                        <td>
+                            <form action="del_event" method="post">
+                                <input type="hidden" name="event_id" value={{event['event_id']}}>
+                                <button type="button" class="btn btn-primary bg-danger text-light" data-bs-toggle="modal" data-bs-target="#pevent{{loop.index}}">Delete Event</button>
+                                <div class="modal fade" id="pevent{{loop.index}}" tabindex="-1" aria-labelledby="pevent{{loop.index}}Label" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Event</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Do you want to delete {{event["title"]}} permanently?
+                                        </div>
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary bg-danger text-light">Delete Event</button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <table class="table table-striped">
+            <thead>
+                <tr><th>Past Tasks</th></tr>
+                <tr>
+                    <td>Task Name</td>
+                    <td>Start Date</td>
+                    <td>End Date</td>
+                    <td>Status</td>
+                    <td>Edit</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in ptasks %}
+                    <tr>
+                        <td>{{task['title']}}</td>
+                        <td>{{task['start']}}</td>
+                        <td>{{task['end']}}</td>
+                        <td>{{task['status']}}</td>
+                        <td>
+                            <div class="row justify-content-center">
+                                <form action="task_statuso" method="post" class="col-auto">
+                                    {% if task["status"] == "Not completed" %}
+                                        <input type="hidden" name="task_status" value="true">
+                                        <input type="hidden" name="task_id" value={{task['task_id']}}>
+                                        <input type="submit" class="btn btn-primary bg-success text-light" value="Mark as done">
+                                    {% else %}
+                                        <input type="hidden" name="task_status" value="false">
+                                        <input type="hidden" name="task_id" value={{task['task_id']}}>
+                                        <input type="submit" class="btn btn-primary bg-primary text-light" value="Mark as not done">
+                                    {% endif %}
+                                </form>
+                                <form action="del_task" method="post" class="col-auto">
+                                    <input type="hidden" name="task_id" value={{task['task_id']}}>
+                                    <button type="button" class="btn btn-primary bg-danger text-light" data-bs-toggle="modal" data-bs-target="#ptask{{loop.index}}">Delete Task</button>
+                                    <div class="modal fade" id="ptask{{loop.index}}" tabindex="-1" aria-labelledby="ptask{{loop.index}}Label" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Task</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Do you want to delete {{task["title"]}} permanently?
+                                            </div>
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary bg-danger text-light">Delete Task</button>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </table>
+
+    <table class="table table-striped">
+        <thead>
+            <tr><th>Past Habits</th></tr>
+            <tr>
+                <td>Habit Name</td>
+                <td>Start Date</td>
+                <td>End Date</td>
+                <td>Success Rate</td>
+                <td>Edit</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tbody>
+                {% for habit in phabits %}
+                    <tr>
+                        <td>{{habit['title']}}</td>
+                        <td>{{habit['start']}}</td>
+                        <td>{{habit['end']}}</td>
+                        <td>%{{habit['success']}}</td>
+                        <td>
+                            <div class="row justify-content-center">
+                                <div class="col-auto" >
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#dphabit{{loop.index}}">Details</button>
+                                    <div class="modal fade" id="dphabit{{loop.index}}" tabindex="-1" aria-labelledby="dphabit{{loop.index}}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Details</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <table class="table table-striped">
+                                                        <thead>
+                                                            <tr><th>{{habit['title']}}</th></tr>
+                                                            <tr>
+                                                                <td>Repititon</td>
+                                                                <td>Date</td>
+                                                                <td>Edit</td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for element in habit['details'] %}
+                                                                <tr>
+                                                                    <td>{{element['habit_day']}}</td>
+                                                                    <td>{{element['start']}}</td>
+                                                                    <td>
+                                                                        <form action="/habit_statuso" method="post">
+                                                                            {% if element["status"] == "false" %}
+                                                                                <input type="hidden" name="habit_status" value="true">
+                                                                                <input type="hidden" name="habit_id" value={{element['habit_id']}}>
+                                                                                <input type="hidden" name="start" value={{element['start']}}>
+                                                                                <input type="submit" value="Mark as done" class="btn btn-primary bg-success text-light">
+                                                                            {% else %}
+                                                                                <input type="hidden" name="habit_status" value="false">
+                                                                                <input type="hidden" name="habit_id" value={{element['habit_id']}}>
+                                                                                <input type="hidden" name="start" value={{element['start']}}>
+                                                                                <input type="submit" value="Mark as not done" class="btn btn-primary bg-primary text-light">
+                                                                            {% endif %}
+                                                                        </form>
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            <form action="del_habit" class="col-auto" method="post">
+                                <input type="hidden" name="habit_id" value={{habit['habit_id']}}>
+                                <button type="button" class="btn btn-primary bg-danger text-light" data-bs-toggle="modal" data-bs-target="#chabit{{loop.index}}">Delete Habit</button>
+                                <div class="modal fade" id="chabit{{loop.index}}" tabindex="-1" aria-labelledby="chabit{{loop.index}}Label" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Habit</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                            Do you want to delete {{habit["title"]}} permanently?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary bg-danger text-light">Delete Habit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </tbody>
+    </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Result
+{% endblock %}
+
+{% block main %}
+    <table class="table table-striped">
+        <tr>
+            <th>Symbol</th>
+            <th>Number</th>
+            <th>Price</th>
+            <th>Total</th>
+            <th>Date</th>
+            <th>Type</th>
+
+
+        </tr>
+        {% for stock in table %}
+            <tr>
+                <td>{{ stock["stock_symbol"] }}</td>
+                <td>{{ stock["quantity"] }}</td>
+                <td>{{ stock["price"] | usd}}</td>
+                <td>{{ stock["total"] | usd}}</td>
+                <td>{{ stock["date"] }}</td>
+                {% if stock["type"] == "BUY" %}
+                    <td style="color: green;">{{ stock["type"] }}</td>
+                {% else %}
+                    <td style="color: red;">{{ stock["type"] }}</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

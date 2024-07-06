@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Result
+{% endblock %}
+
+{% block main %}
+    <table class="table table-striped" >
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Symbol</th>
+            <th>Add to favourites </th>
+        </tr>
+        <tr>
+            <td>{{ table["name"] }}</td>
+            <td>{{ table["price"] | usd }}</td>
+            <td>{{ table["symbol"] }}</td>
+            <td>
+                <form action="/fav" method="post">
+                    <input type="hidden" name="symbol" value="{{ table['name'] }}">
+                    <button class="btn btn-primary" type="submit">Add</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+
+{% endblock %}

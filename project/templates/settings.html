@@ -1,0 +1,106 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Settings
+{% endblock %}
+
+{% block main %}
+    <div class="grid m-3 border rounded-3 bg-white bg-opacity-10">
+        <h2>SETTINGS</h2>
+    </div>
+    <form action="/settings" method="post">
+        <div class="grid m-3 border rounded-3 bg-white bg-opacity-10">
+            <div class=" m-2 row justify-content-evenly">
+                <div class="col-auto row justify-content-center align-self-center">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td><label class="col-auto" for="name"><h4>Name:</h4></label></td>
+                                <td><p class="pt-1 col-auto" id="name">{{user['name']}}</p></td>
+                                <td><input class="col-5 m-0 p-0 form-control"  autocomplete="off" type="text" name="name" placeholder="Change name"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-auto row justify-content-center align-self-center">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td><label class="col-auto" for="surname"><h4>Surname:</h4></label></td>
+                                <td><p class="pt-1 col-auto" id="surname">{{user['surname']}}</p></td>
+                                <td><input class="col-5 form-control" autocomplete="off" type="text" name="surname" placeholder="Change surname"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-auto row justify-content-center">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <label for="pp"><h4>Change Avatar</h4></label>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <img src="/static/pp/{{user['pp_img']}}" id="pp" alt="Profile Picture" class="rounded-circle border"  style="width: 75px; background-color: {{user['pp_bg']}}">
+                                </td>
+                                <td class="align-items-center m-0">
+                                    <label for="exampleColorInput" class="m-1 form-label">Color</label>
+                                    <input type="color" class="form-control form-control-color" name="color" id="exampleColorInput" value="" title="Change the background color">
+                                </td>
+                                <td class="col-auto">
+                                    <label for="avatar-select" class="form-label align-item-center">Avatar</label>
+                                    <select class="form-select" name="avatar" id="avatar-select" aria-label="select avatar">
+                                        <option selected disabled value=""></option>
+                                        <option value="pp1.png">No:1</option>
+                                        <option value="pp2.png">No:2</option>
+                                        <option value="pp3.png">No:3</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="grid m-3 border rounded-3 bg-white bg-opacity-10">
+            <div class=" m-2 row justify-content-evenly">
+                <div class="col-auto row justify-content-center align-self-center">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td><label class="col-auto" for="username"><h4>Username:</h4></label></td>
+                                <td><p class="pt-1 col-auto" id="username">{{user['username']}}</p></td>
+                                <td><input class="col-5 m-0 p-0 form-control"  autocomplete="off" type="text" name="username" placeholder="Change username"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-auto row justify-content-center align-self-center">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <td><label class="col-auto" for="password"><h4>Change password:</h4></label></td>
+                                <td><input class="col-5 m-0 p-0 form-control" type="password" name="password" placeholder="Change password"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="grid m-3 border rounded-3 bg-white bg-opacity-10">
+            <div class=" m-2 row justify-content-end">
+                <div class="col-7">
+                    <p>Please confirm your password and press the button. If your password is same with current password, your changes will be integrated the system. If you want to go to main page, please use the navigation bar.</p>
+                </div>
+                <div class="col-auto">
+                    <input class="col-auto m-0 p-0 form-control" type="password" name="confirm" placeholder="Confirm your password">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class=" col-auto btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
